@@ -101,7 +101,16 @@ class _CreatePageState extends State<CreatePage> {
                   hintText: 'Enter project name',
                   hintStyle:
                       TextStyle(color: Colors.grey), // Set hint text color
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 255, 83, 172)), // Set border color
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 255, 83, 172)), // Set enabled border color
+                  ),
                 ),
               ),
               SizedBox(height: 16),
@@ -120,7 +129,16 @@ class _CreatePageState extends State<CreatePage> {
                   hintText: 'Enter video URL',
                   hintStyle:
                       TextStyle(color: Colors.grey), // Set hint text color
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 255, 83, 172)), // Set border color
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 255, 83, 172)), // Set enabled border color
+                  ),
                 ),
               ),
               SizedBox(height: 16),
@@ -134,7 +152,7 @@ class _CreatePageState extends State<CreatePage> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            10), // Adjust the radius as needed
+                            25), // Adjust the radius as needed
                       ),
                       minimumSize: Size(
                           150, 50), // Adjust the width and height as needed
@@ -152,7 +170,7 @@ class _CreatePageState extends State<CreatePage> {
                   ), // Replace with actual file name if selected
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 16),
               Text(
                 'Select Language',
                 style: TextStyle(
@@ -179,11 +197,20 @@ class _CreatePageState extends State<CreatePage> {
                   );
                 }).toList(),
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 255, 83, 172)), // Set border color
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 255, 83, 172)), // Set enabled border color
+                  ),
                   focusedBorder: OutlineInputBorder(
-                    // Set focused border color
-                    borderSide:
-                        BorderSide(color: Color.fromARGB(255, 255, 53, 218)),
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 255, 83, 172)), // Set focused border color
                   ),
                 ),
                 style: TextStyle(
@@ -199,17 +226,17 @@ class _CreatePageState extends State<CreatePage> {
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Logic for translating the project
+                      // On press, navigate to a Homeview but update the current projects and show progress of translating the project
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            10), // Adjust the radius as needed
+                            25), // Adjust the radius as needed
                       ),
                       minimumSize: Size(
                           150, 50), // Adjust the width and height as needed
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      primary: Color.fromARGB(255, 182, 39, 111),
+                      primary: Color.fromARGB(255, 118, 8, 138),
                     ),
                     child: Text('Translatify It!',
                         style: TextStyle(

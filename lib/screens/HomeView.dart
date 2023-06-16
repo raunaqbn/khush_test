@@ -1,8 +1,41 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'CreatePage.dart';
+import 'ViewProjectPage.dart';
+
+class ImageCardData {
+  final String imageUrl;
+  final String foregroundText;
+  final String subtext;
+
+  ImageCardData({
+    required this.imageUrl,
+    required this.foregroundText,
+    required this.subtext,
+  });
+}
 
 SingleChildScrollView HomeView(BuildContext context) {
+  final List<ImageCardData> imageCards = [
+    ImageCardData(
+      imageUrl:
+          'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/94b451100579611.5ff9a6374307b.jpg',
+      foregroundText: "Khush's Project",
+      subtext: 'Translation: Multiple Languages',
+    ),
+    ImageCardData(
+      imageUrl: 'https://i.ytimg.com/vi/3YNku5FKWjw/maxresdefault.jpg',
+      foregroundText: "Raunaq's Project",
+      subtext: 'Translation: English to Japanese',
+    ),
+    ImageCardData(
+      imageUrl:
+          'https://pbs.twimg.com/ext_tw_video_thumb/1613570354089181185/pu/img/fp5InRCF8E9qG7nh.jpg',
+      foregroundText: 'Project 3',
+      subtext: 'Translation: English to Russian',
+    ),
+  ];
+
   return SingleChildScrollView(
     child: Container(
       child: Column(
@@ -64,102 +97,104 @@ SingleChildScrollView HomeView(BuildContext context) {
               ),
             ),
           ),
-          // Image Card
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: buildImageCard(
-              imageUrl:
-                  'https://pbs.twimg.com/card_img/1667082619136413697/FBEP-LaW?format=jpg&name=large',
-              foregroundText: 'Project 1',
-              subtext: 'Translation: English to Spanish',
-            ),
+          ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: imageCards.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: buildImageCard(
+                  imageUrl: imageCards[index].imageUrl,
+                  foregroundText: imageCards[index].foregroundText,
+                  subtext: imageCards[index].subtext,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewProjectPage(
+                          projectTitle: imageCards[index].foregroundText,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: buildImageCard(
-              imageUrl:
-                  'https://i0.wp.com/hubermanlab.com/wp-content/uploads/2023/04/Episode-Card-122-Noam-Sobel.jpg?fit=1080%2C608&ssl=1',
-              foregroundText: 'Project 2',
-              subtext: 'Translation: English to Japanese',
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: buildImageCard(
-              imageUrl:
-                  'https://i.ytimg.com/vi/dl2fnWIlDZg/hqdefault.jpg?sqp=-oaymwEjCPYBEIoBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLBSbvPShsaMns7-sDgk74GBAsUqsw',
-              foregroundText: 'Project 3',
-              subtext: 'Translation: English to Russian',
-            ),
-          ),
-          // Add more image cards here
         ],
       ),
     ),
   );
 }
 
-Widget buildImageCard(
-    {required String imageUrl,
-    required String foregroundText,
-    required String subtext}) {
+Widget buildImageCard({
+  required String imageUrl,
+  required String foregroundText,
+  required String subtext,
+  required VoidCallback onTap,
+}) {
   return Card(
     clipBehavior: Clip.antiAlias,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(24),
     ),
-    child: Stack(
-      alignment: Alignment.center,
-      children: [
-        Ink.image(
-          image: NetworkImage(imageUrl),
-          height: 200,
-          fit: BoxFit.cover,
-          child: InkWell(
-            onTap: () {},
+    child: GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Ink.image(
+            image: NetworkImage(imageUrl),
+            height: 200,
+            fit: BoxFit.cover,
+            child: InkWell(
+              onTap: () {},
+            ),
           ),
-        ),
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Color.fromARGB(255, 27, 3, 36).withOpacity(0.6)
-                ],
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Color.fromARGB(255, 27, 3, 36).withOpacity(0.6)
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        Positioned(
-          bottom: 16,
-          left: 16,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                foregroundText,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 24,
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  foregroundText,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 24,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              SizedBox(height: 4),
-              Text(
-                subtext,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
+                SizedBox(height: 4),
+                Text(
+                  subtext,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
