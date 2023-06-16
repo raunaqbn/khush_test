@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'HomeView.dart';
-import 'Baagdu.dart';
+import 'ProfilePage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,10 +24,10 @@ class _HomePageState extends State<HomePage> {
         page = HomeView(context);
         break;
       case 1:
-        page = Baagdu(context);
+        page = HomeView(context);
         break;
       case 2:
-        page = HomeView(context);
+        page = ProfilePage();
         break;
       default:
         page = HomeView(context);
@@ -67,6 +67,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color.fromARGB(255, 0, 0, 0),
       selectedItemColor: Colors.white,
       unselectedItemColor: Color.fromARGB(255, 128, 119, 119),
+      currentIndex:
+          _selectedIndex, // Add this line to specify the current index
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_rounded),
