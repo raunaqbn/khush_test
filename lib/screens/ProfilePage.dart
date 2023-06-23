@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'SignInPage.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -80,6 +82,10 @@ class ProfilePage extends StatelessWidget {
               ),
               child: TextButton(
                 onPressed: () {
+                  FirebaseAuth.instance.signOut().then((value) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignInPage()));
+                  });
                   // Handle sign out button pressed
                 },
                 child: Text(

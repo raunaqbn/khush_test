@@ -38,9 +38,9 @@ class ViewProjectPage extends StatelessWidget {
               shaderCallback: (Rect bounds) {
                 return LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 154, 39, 165),
-                    Color.fromARGB(255, 219, 86, 184),
-                    Color.fromARGB(255, 172, 84, 216),
+                    Color.fromARGB(255, 240, 221, 242),
+                    Color.fromARGB(255, 252, 252, 252),
+                    Color.fromARGB(255, 239, 217, 250),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -50,7 +50,6 @@ class ViewProjectPage extends StatelessWidget {
                 projectTitle,
                 style: TextStyle(
                   fontSize: 25,
-                  fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
@@ -100,7 +99,7 @@ class ViewProjectPage extends StatelessWidget {
                 trailing: IconButton(
                   icon: Icon(
                     Icons.play_circle_fill_outlined,
-                    color: Color.fromARGB(255, 250, 54, 155),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                   onPressed: () {
                     // Handle play button pressed

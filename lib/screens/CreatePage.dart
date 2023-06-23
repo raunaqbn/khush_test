@@ -38,9 +38,9 @@ class _CreatePageState extends State<CreatePage> {
               shaderCallback: (Rect bounds) {
                 return LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 154, 39, 165),
-                    Color.fromARGB(255, 219, 86, 184),
-                    Color.fromARGB(255, 172, 84, 216),
+                    Color.fromARGB(255, 240, 221, 242),
+                    Color.fromARGB(255, 252, 252, 252),
+                    Color.fromARGB(255, 239, 217, 250),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -50,7 +50,6 @@ class _CreatePageState extends State<CreatePage> {
                 'New Project',
                 style: TextStyle(
                   fontSize: 25,
-                  fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
@@ -58,7 +57,7 @@ class _CreatePageState extends State<CreatePage> {
             SizedBox(width: 10),
             Icon(
               Icons.translate,
-              color: Color.fromARGB(255, 175, 98, 233),
+              color: Colors.white,
             ),
           ],
         ),
@@ -103,13 +102,13 @@ class _CreatePageState extends State<CreatePage> {
                       TextStyle(color: Colors.grey), // Set hint text color
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color.fromARGB(
-                            255, 255, 83, 172)), // Set border color
+                        color: const Color.fromARGB(
+                            255, 201, 201, 201)), // Set border color
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color.fromARGB(
-                            255, 255, 83, 172)), // Set enabled border color
+                        color: const Color.fromARGB(
+                            255, 201, 201, 201)), // Set enabled border color
                   ),
                 ),
               ),
@@ -131,13 +130,13 @@ class _CreatePageState extends State<CreatePage> {
                       TextStyle(color: Colors.grey), // Set hint text color
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color.fromARGB(
-                            255, 255, 83, 172)), // Set border color
+                      color: const Color.fromARGB(255, 201, 201, 201),
+                    ), // Set border color
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color.fromARGB(
-                            255, 255, 83, 172)), // Set enabled border color
+                      color: const Color.fromARGB(255, 201, 201, 201),
+                    ), // Set enabled border color
                   ),
                 ),
               ),
@@ -157,7 +156,7 @@ class _CreatePageState extends State<CreatePage> {
                       minimumSize: Size(
                           150, 50), // Adjust the width and height as needed
                       padding: EdgeInsets.symmetric(horizontal: 20),
-                      primary: Color.fromARGB(255, 118, 8, 138),
+                      primary: Color.fromARGB(255, 56, 30, 119),
                       onPrimary: Colors.white,
                     ),
                   ),
@@ -199,22 +198,22 @@ class _CreatePageState extends State<CreatePage> {
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color.fromARGB(
-                            255, 255, 83, 172)), // Set border color
+                      color: const Color.fromARGB(255, 201, 201, 201),
+                    ), // Set border color
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color.fromARGB(
-                            255, 255, 83, 172)), // Set enabled border color
+                      color: const Color.fromARGB(255, 201, 201, 201),
+                    ), // Set enabled border color
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Color.fromARGB(
-                            255, 255, 83, 172)), // Set focused border color
+                      color: const Color.fromARGB(255, 201, 201, 201),
+                    ), // Set focused border color
                   ),
                 ),
                 style: TextStyle(
-                  color: Colors.white,
+                  color: const Color.fromARGB(255, 201, 201, 201),
                   fontSize: 15,
                 ), // Set dropdown text color
                 dropdownColor: Colors.black, // Set dropdown background color
@@ -224,25 +223,46 @@ class _CreatePageState extends State<CreatePage> {
                 padding: const EdgeInsets.only(bottom: 70.0),
                 child: Align(
                   alignment: Alignment.center,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // On press, navigate to a Homeview but update the current projects and show progress of translating the project
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            25), // Adjust the radius as needed
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 10, 28, 78),
+                          Color.fromARGB(255, 28, 11, 82),
+                          Color.fromARGB(255, 56, 30, 119),
+                          Color.fromARGB(255, 0, 34, 158),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
-                      minimumSize: Size(
-                          150, 50), // Adjust the width and height as needed
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      primary: Color.fromARGB(255, 118, 8, 138),
+                      borderRadius: BorderRadius.circular(25),
                     ),
-                    child: Text('Translatify It!',
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // On press, navigate to a Homeview but update the current projects and show progress of translating the project
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              25), // Adjust the radius as needed
+                        ),
+                        minimumSize: Size(
+                            150, 50), // Adjust the width and height as needed
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        primary: Colors
+                            .transparent, // Set the button's background color as transparent
+                        onPrimary: Colors
+                            .white, // Set the button's text color as white
+                      ),
+                      child: Text(
+                        'Translatify It!',
                         style: TextStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
