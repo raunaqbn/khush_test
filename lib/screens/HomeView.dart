@@ -45,10 +45,10 @@ SingleChildScrollView HomeView(BuildContext context) {
             padding: const EdgeInsets.all(18.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CreatePage()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => CreatePage()),
+                // );
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,

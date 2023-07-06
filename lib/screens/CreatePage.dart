@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'HomeView.dart';
-// import 'package:flutter/services.dart';
-// import 'package:file_picker/file_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:file_picker/file_picker.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({Key? key}) : super(key: key);
@@ -11,12 +11,12 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
-  // Future selectFile() async {
-  //   //final result = await FilePicker.platform.pickFiles(allowMultiple: false);
-  //   if (result == null) return;
-  //   final path = result.files.single.path!;
-  //   setState(() => _selectedFilePath = path);
-  // }
+  Future selectFile() async {
+    //final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result == null) return;
+    final path = result.files.single.path!;
+    setState(() => _selectedFilePath = path);
+  }
 
   String _selectedLanguage = 'English';
   String? _selectedFilePath;
