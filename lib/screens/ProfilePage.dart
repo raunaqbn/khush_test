@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:namer_app/services/firebase_services.dart';
 import 'SignInPage.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -19,12 +20,13 @@ class ProfilePage extends StatelessWidget {
             SizedBox(height: 20),
             CircleAvatar(
               radius: 80,
-              backgroundImage: NetworkImage(
-                  'https://starsunfolded.com/wp-content/uploads/2021/04/Marques-Brownlee.jpg'),
+              backgroundImage: NetworkImage(FirebaseAuth
+                      .instance.currentUser?.photoURL ??
+                  'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png'),
             ),
             SizedBox(height: 20),
             Text(
-              'Marques Brownlee',
+              "${FirebaseAuth.instance.currentUser?.displayName ?? 'Guest'}",
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -33,7 +35,7 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'mkbhd.ytb@gmail.com',
+              '${FirebaseAuth.instance.currentUser?.email ?? 'Guest'}',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
@@ -81,7 +83,8 @@ class ProfilePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(25),
               ),
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await FirebaseServices().signOut();
                   FirebaseAuth.instance.signOut().then((value) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => SignInPage()));

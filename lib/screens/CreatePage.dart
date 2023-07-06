@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'HomeView.dart';
+// import 'package:flutter/services.dart';
+// import 'package:file_picker/file_picker.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({Key? key}) : super(key: key);
@@ -9,7 +11,23 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
+  // Future selectFile() async {
+  //   //final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+  //   if (result == null) return;
+  //   final path = result.files.single.path!;
+  //   setState(() => _selectedFilePath = path);
+  // }
+
   String _selectedLanguage = 'English';
+  String? _selectedFilePath;
+
+  String? _projectName;
+  bool _englishSelected = true;
+  bool _spanishSelected = false;
+  bool _frenchSelected = false;
+  bool _germanSelected = false;
+  bool _japaneseSelected = false;
+  bool _chineseSelected = false;
 
   List<String> _languages = [
     'English',
@@ -111,6 +129,11 @@ class _CreatePageState extends State<CreatePage> {
                             255, 201, 201, 201)), // Set enabled border color
                   ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    _projectName = value;
+                  });
+                },
               ),
               SizedBox(height: 16),
               Text(
@@ -145,7 +168,7 @@ class _CreatePageState extends State<CreatePage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Logic for uploading video from device
+                      // On press, upload file from device
                     },
                     child: Text('Upload from Device'),
                     style: ElevatedButton.styleFrom(
@@ -184,6 +207,12 @@ class _CreatePageState extends State<CreatePage> {
                 onChanged: (newValue) {
                   setState(() {
                     _selectedLanguage = newValue!;
+                    _englishSelected = newValue == 'English';
+                    _spanishSelected = newValue == 'Spanish';
+                    _frenchSelected = newValue == 'French';
+                    _germanSelected = newValue == 'German';
+                    _japaneseSelected = newValue == 'Japanese';
+                    _chineseSelected = newValue == 'Chinese';
                   });
                 },
                 items: _languages.map((language) {

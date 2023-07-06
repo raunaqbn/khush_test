@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/services/firebase_services.dart';
 import 'SignUpPage.dart';
 import 'HomePage.dart';
 import 'package:flutter/cupertino.dart';
@@ -136,6 +137,56 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                     SizedBox(height: 20),
+                    Container(
+                      height: 50,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 10, 28, 78),
+                            Color.fromARGB(255, 28, 11, 82),
+                            Color.fromARGB(255, 56, 30, 119),
+                            Color.fromARGB(255, 0, 34, 158),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final user =
+                              await FirebaseServices().signInWithGoogle();
+                          if (user != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()),
+                            );
+                          }
+                          ;
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          minimumSize: Size(150, 50),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          primary: Colors.transparent,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/google_icon.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            SizedBox(width: 8),
+                          ],
+                        ),
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
