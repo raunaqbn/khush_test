@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          initialPage = HomePage();
+          initialPage = SignInPage();
         } else {
           initialPage = SignInPage();
         }

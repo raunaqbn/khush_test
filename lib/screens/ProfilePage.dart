@@ -86,8 +86,10 @@ class ProfilePage extends StatelessWidget {
                 onPressed: () async {
                   await FirebaseServices().signOut();
                   FirebaseAuth.instance.signOut().then((value) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignInPage()));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInPage()),
+                    );
                   });
                   // Handle sign out button pressed
                 },

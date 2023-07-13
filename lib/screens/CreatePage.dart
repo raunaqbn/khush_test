@@ -1,7 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'HomeView.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_ios/image_picker_ios.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
+import 'package:video_player/video_player.dart';
+import 'package:flutter/services.dart';
+
+final MethodChannel _channel = const MethodChannel('image_picker_channel');
 
 class CreatePage extends StatefulWidget {
   const CreatePage({Key? key}) : super(key: key);
@@ -12,7 +20,7 @@ class CreatePage extends StatefulWidget {
 
 class _CreatePageState extends State<CreatePage> {
   Future selectFile() async {
-    //final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
     if (result == null) return;
     final path = result.files.single.path!;
     setState(() => _selectedFilePath = path);
@@ -20,6 +28,106 @@ class _CreatePageState extends State<CreatePage> {
 
   String _selectedLanguage = 'English';
   String? _selectedFilePath;
+  File? pickedFile;
+
+  // Future<String?> pickImageFromGallery() async {
+  //   try {
+  //     final String? result =
+  //         await _channel.invokeMethod('pickImageFromGallery');
+  //     return result;
+  //   } on PlatformException catch (e) {
+  //     // Handle any error that occurred during the method call
+  //     print('Error: ${e.message}');
+  //     return null;
+  //   }
+  // }
+
+  // Future<String?> pickVideoFromGallery() async {
+  //   try {
+  //     final String? result =
+  //         await _channel.invokeMethod('pickVideoFromGallery');
+  //     return result;
+  //   } on PlatformException catch (e) {
+  //     // Handle any error that occurred during the method call
+  //     print('Error: ${e.message}');
+  //     return null;
+  //   }
+  // }
+
+  // getVideo(ImageSource source) async {
+  //   final video = await ImagePicker().pickVideo(source: source);
+  //   if (video == null) return;
+  //   final videoTemporary = File(video.path);
+
+  //   setState(() => pickedFile = videoTemporary);
+  // }
+
+  // getIOSVideo(ImageSource source) async {
+  //   // final video = await ImagePicker().pickVideo(source: source);
+  //   final ImagePickerPlatform _picker = ImagePickerPlatform.instance;
+  //   final video = await _picker.pickVideo(source: source);
+  //   if (video == null) return;
+  //   final videoTemporary = File(video.path);
+
+  //   if (Platform.isIOS) {
+  //     Future.microtask(() {
+  //       setState(() => pickedFile = videoTemporary);
+  //     });
+  //   } else {
+  //     setState(() => pickedFile = videoTemporary);
+  //   }
+  // }
+
+  // getVideo(ImageSource source) async {
+  //   final video = await ImagePicker().pickVideo(source: source);
+  //   if (video == null) return;
+  //   final videoTemporary = File(video.path);
+
+  //   setState(() => pickedFile = videoTemporary);
+  // }
+
+  // getIOSVideo(ImageSource source) async {
+  //   // final video = await ImagePicker().pickVideo(source: source);
+  //   final ImagePickerPlatform _picker = ImagePickerPlatform.instance;
+  //   final video = await _picker.pickVideo(source: source);
+  //   if (video == null) return;
+  //   final videoTemporary = File(video.path);
+
+  //   if (Platform.isIOS) {
+  //     Future.microtask(() {
+  //       setState(() => pickedFile = videoTemporary);
+  //     });
+  //   } else {
+  //     setState(() => pickedFile = videoTemporary);
+  //   }
+  // }
+
+  // late File _video;
+  // final picker = ImagePicker();
+  // late VideoPlayerController _videoPlayerController;
+
+  // _pickVideo() async {
+  //   final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     final path = pickedFile.path!;
+  //     WidgetsBinding.instance?.addPostFrameCallback((_) {
+  //       _initializeVideoPlayer(path);
+  //     });
+  //   }
+  // }
+
+  // // Function to initialize the VideoPlayerController
+  // void _initializeVideoPlayer(String path) {
+  //   setState(() {
+  //     _videoPlayerController = VideoPlayerController.file(File(path));
+  //   });
+
+  //   _videoPlayerController!.initialize().then((_) {
+  //     setState(() {
+  //       _videoPlayerController!.play();
+  //     });
+  //   });
+  // }
 
   String? _projectName;
   bool _englishSelected = true;
@@ -168,7 +276,11 @@ class _CreatePageState extends State<CreatePage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // On press, upload file from device
+                      if (Platform.isIOS) {
+                        getIOSVideo(ImageSource.gallery);
+                      } else {
+                        getVideo(ImageSource.gallery);
+                      }
                     },
                     child: Text('Upload from Device'),
                     style: ElevatedButton.styleFrom(

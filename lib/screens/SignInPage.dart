@@ -155,16 +155,16 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       child: ElevatedButton(
                         onPressed: () async {
-                          final user =
-                              await FirebaseServices().signInWithGoogle();
-                          if (user != null) {
+                          try {
+                            await FirebaseServices().signInWithGoogle();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HomePage()),
                             );
+                          } catch (e) {
+                            print(e);
                           }
-                          ;
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
