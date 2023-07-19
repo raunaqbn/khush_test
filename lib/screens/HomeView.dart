@@ -2,40 +2,44 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'CreatePage.dart';
 import 'ViewProjectPage.dart';
+import 'HomePage.dart';
 
 class ImageCardData {
-  final String imageUrl;
-  final String foregroundText;
-  final String subtext;
+  String imageUrl;
+  String foregroundText;
+  String subtext;
 
   ImageCardData({
     required this.imageUrl,
     required this.foregroundText,
     required this.subtext,
   });
+
+  // Add the fromJson method to convert JSON to ImageCardData object
+  factory ImageCardData.fromJson(Map<String, dynamic> json) {
+    return ImageCardData(
+      imageUrl: json['imageUrl'],
+      foregroundText: json['foregroundText'],
+      subtext: json['subtext'],
+    );
+  }
+
+  // Add the toJson method to convert ImageCardData object to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'imageUrl': imageUrl,
+      'foregroundText': foregroundText,
+      'subtext': subtext,
+    };
+  }
 }
 
-SingleChildScrollView HomeView(BuildContext context) {
-  final List<ImageCardData> imageCards = [
-    ImageCardData(
-      imageUrl:
-          'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/94b451100579611.5ff9a6374307b.jpg',
-      foregroundText: "Khush's Project",
-      subtext: 'Translation: Multiple Languages',
-    ),
-    ImageCardData(
-      imageUrl: 'https://i.ytimg.com/vi/3YNku5FKWjw/maxresdefault.jpg',
-      foregroundText: "Raunaq's Project",
-      subtext: 'Translation: English to Japanese',
-    ),
-    ImageCardData(
-      imageUrl:
-          'https://pbs.twimg.com/ext_tw_video_thumb/1613570354089181185/pu/img/fp5InRCF8E9qG7nh.jpg',
-      foregroundText: 'Project 3',
-      subtext: 'Translation: English to Russian',
-    ),
-  ];
-
+SingleChildScrollView HomeView(
+  BuildContext context, {
+  required List<ImageCardData> imageCards,
+  required Function(ImageCardData) onAddImageCard,
+  required Function(ImageCardData) onDeleteImageCard,
+}) {
   return SingleChildScrollView(
     child: Container(
       child: Column(
@@ -47,7 +51,12 @@ SingleChildScrollView HomeView(BuildContext context) {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CreatePage()),
+                  MaterialPageRoute(
+                    builder: (context) => CreatePage(
+                      imageCards: imageCards,
+                      onAddImageCard: onAddImageCard,
+                    ),
+                  ),
                 );
               },
               child: Container(
@@ -118,6 +127,10 @@ SingleChildScrollView HomeView(BuildContext context) {
                       ),
                     );
                   },
+                  onDelete: () {
+                    // Call the onDeleteImageCard function when delete is pressed
+                    onDeleteImageCard(imageCards[index]);
+                  },
                 ),
               );
             },
@@ -133,6 +146,7 @@ Widget buildImageCard({
   required String foregroundText,
   required String subtext,
   required VoidCallback onTap,
+  required VoidCallback onDelete, // Add the onDelete parameter
 }) {
   return Card(
     clipBehavior: Clip.antiAlias,
@@ -157,12 +171,12 @@ Widget buildImageCard({
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
                 gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Color.fromARGB(255, 27, 3, 36).withOpacity(0.6)
+                    Colors.black.withOpacity(0.7),
                   ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
               ),
             ),
@@ -170,19 +184,19 @@ Widget buildImageCard({
           Positioned(
             bottom: 16,
             left: 16,
+            right: 16,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   foregroundText,
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
                     color: Colors.white,
-                    fontSize: 24,
-                    overflow: TextOverflow.ellipsis,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
                   subtext,
                   style: TextStyle(
@@ -191,6 +205,15 @@ Widget buildImageCard({
                   ),
                 ),
               ],
+            ),
+          ),
+          Positioned(
+            top: 16,
+            right: 16,
+            child: IconButton(
+              icon: Icon(Icons.delete),
+              color: Colors.white,
+              onPressed: onDelete, // Call the onDelete callback when pressed
             ),
           ),
         ],
