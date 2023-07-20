@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 class ViewProjectPage extends StatelessWidget {
   final String projectTitle;
+  final String selectedLanguage;
 
-  ViewProjectPage({required this.projectTitle});
+  ViewProjectPage({
+    required this.projectTitle,
+    required this.selectedLanguage,
+  });
 
   final List<String> languages = [
     'English',
@@ -78,35 +82,41 @@ class ViewProjectPage extends StatelessWidget {
         child: ListView.builder(
           itemCount: languages.length,
           itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: ListTile(
-                leading: SizedBox(
-                  width: 80,
-                  height: 48,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(24),
-                    child: Image.network(
-                      languageImages[index],
-                      fit: BoxFit.cover,
+            print("Selected Language: $selectedLanguage");
+            print("language index: ${languages[index]}");
+            if (languages[index] == selectedLanguage) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListTile(
+                  leading: SizedBox(
+                    width: 80,
+                    height: 48,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: Image.network(
+                        languageImages[index],
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                title: Text(
-                  languages[index],
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: IconButton(
-                  icon: Icon(
-                    Icons.play_circle_fill_outlined,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                  title: Text(
+                    languages[index],
+                    style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () {
-                    // Handle play button pressed
-                  },
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.play_circle_fill_outlined,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    onPressed: () {
+                      // Handle play button pressed
+                    },
+                  ),
                 ),
-              ),
-            );
+              );
+            } else {
+              return Container(); // Return an empty container for non-selected languages
+            }
           },
         ),
       ),

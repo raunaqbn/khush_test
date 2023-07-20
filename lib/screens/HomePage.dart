@@ -69,6 +69,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  String _selectedLanguage = 'English';
+
   Widget buildSidebarLayout() {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 0, 0, 0),
@@ -111,7 +113,7 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: Container(
               color: Colors.black,
-              child: buildPage(context),
+              child: buildPage(context, _selectedLanguage),
             ),
           ),
         ],
@@ -120,7 +122,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildBottomNavBarLayout() {
-    Widget page = buildPage(context);
+    Widget page = buildPage(context, _selectedLanguage);
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 0, 0, 0),
       appBar: TopAppBar(),
@@ -157,12 +159,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildPage(BuildContext context) {
+  Widget buildPage(BuildContext context, String selectedLanguage) {
     Widget page;
     switch (_selectedIndex) {
       case 0:
         page = HomeView(
-          context,
+          selectedLanguage: selectedLanguage,
           imageCards: imageCards,
           onAddImageCard: _addImageCard,
           onDeleteImageCard: _deleteImageCard, // Pass the delete function here
@@ -170,7 +172,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 1:
         page = HomeView(
-          context,
+          selectedLanguage: selectedLanguage,
           imageCards: imageCards,
           onAddImageCard: _addImageCard,
           onDeleteImageCard: _deleteImageCard, // Pass the delete function here
@@ -181,7 +183,7 @@ class _HomePageState extends State<HomePage> {
         break;
       default:
         page = HomeView(
-          context,
+          selectedLanguage: selectedLanguage,
           imageCards: imageCards,
           onAddImageCard: _addImageCard,
           onDeleteImageCard: _deleteImageCard, // Pass the delete function here

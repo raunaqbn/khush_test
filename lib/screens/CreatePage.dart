@@ -35,7 +35,7 @@ class _CreatePageState extends State<CreatePage> {
     setState(() => _selectedFilePath = path);
   }
 
-  String _selectedLanguage = 'English';
+  String _selectedLanguage = '';
   String? _selectedFilePath;
   File? pickedFile;
 
@@ -97,10 +97,9 @@ class _CreatePageState extends State<CreatePage> {
   List<String> _languages = [
     'English',
     'Spanish',
+    'Hindi',
     'French',
     'German',
-    'Japanese',
-    'Chinese',
   ];
 
   @override

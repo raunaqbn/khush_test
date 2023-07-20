@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'CreatePage.dart';
 import 'ViewProjectPage.dart';
@@ -34,111 +33,121 @@ class ImageCardData {
   }
 }
 
-SingleChildScrollView HomeView(
-  BuildContext context, {
-  required List<ImageCardData> imageCards,
-  required Function(ImageCardData) onAddImageCard,
-  required Function(ImageCardData) onDeleteImageCard,
-}) {
-  return SingleChildScrollView(
-    child: Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreatePage(
-                      imageCards: imageCards,
-                      onAddImageCard: onAddImageCard,
+class HomeView extends StatelessWidget {
+  final List<ImageCardData> imageCards;
+  final Function(ImageCardData) onAddImageCard;
+  final Function(ImageCardData) onDeleteImageCard;
+  final String selectedLanguage;
+
+  HomeView({
+    required this.imageCards,
+    required this.onAddImageCard,
+    required this.onDeleteImageCard,
+    required this.selectedLanguage,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreatePage(
+                        imageCards: imageCards,
+                        onAddImageCard: onAddImageCard,
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 10, 28, 78)!,
+                        Color.fromARGB(255, 28, 11, 82)!,
+                        Color.fromARGB(255, 56, 30, 119)!,
+                        Color.fromARGB(255, 0, 34, 158)!,
+                      ],
                     ),
                   ),
-                );
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 10, 28, 78)!,
-                      Color.fromARGB(255, 28, 11, 82)!,
-                      Color.fromARGB(255, 56, 30, 119)!,
-                      Color.fromARGB(255, 0, 34, 158)!,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_circle_outline,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        "Create New Project",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.add_circle_outline,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Create New Project",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 18.0, top: 18.0),
+              child: Text(
+                'Current Projects',
+                style: TextStyle(
+                  fontFamily: 'Helvetica',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Colors.white,
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 18.0, top: 18.0),
-            child: Text(
-              'Current Projects',
-              style: TextStyle(
-                fontFamily: 'Helvetica',
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: imageCards.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: buildImageCard(
-                  imageUrl: imageCards[index].imageUrl,
-                  foregroundText: imageCards[index].foregroundText,
-                  subtext: imageCards[index].subtext,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ViewProjectPage(
-                          projectTitle: imageCards[index].foregroundText,
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: imageCards.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: buildImageCard(
+                    imageUrl: imageCards[index].imageUrl,
+                    foregroundText: imageCards[index].foregroundText,
+                    subtext: imageCards[index].subtext,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewProjectPage(
+                            projectTitle: imageCards[index].foregroundText,
+                            selectedLanguage: imageCards[index].subtext,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  onDelete: () {
-                    // Call the onDeleteImageCard function when delete is pressed
-                    onDeleteImageCard(imageCards[index]);
-                  },
-                ),
-              );
-            },
-          ),
-        ],
+                      );
+                    },
+                    onDelete: () {
+                      onDeleteImageCard(imageCards[index]);
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 Widget buildImageCard({
