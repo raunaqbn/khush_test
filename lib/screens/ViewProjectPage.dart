@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
-class ViewProjectPage extends StatelessWidget {
+class ViewProjectPage extends StatefulWidget {
   final String projectTitle;
-  final String selectedLanguage;
+  final List<String> selectedLanguages;
 
   ViewProjectPage({
     required this.projectTitle,
-    required this.selectedLanguage,
+    required this.selectedLanguages,
   });
 
+  @override
+  State<ViewProjectPage> createState() => _ViewProjectPageState();
+}
+
+class _ViewProjectPageState extends State<ViewProjectPage>
+    with AutomaticKeepAliveClientMixin<ViewProjectPage> {
   final List<String> languages = [
     'English',
     'Spanish',
@@ -24,6 +30,29 @@ class ViewProjectPage extends StatelessWidget {
     'https://images.alphacoders.com/958/95873.jpg',
     'https://img2.goodfon.com/wallpaper/big/a/2c/germaniya-flag-germany-flag.jpg',
   ];
+
+  List<String> _selectedLanguages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Add the initially selected language to the list of selected languages
+    _selectedLanguages.add(widget.selectedLanguages[0]);
+  }
+
+  void _addSelectedLanguage(String language) {
+    setState(() {
+      // Add the selected language to the list of selected languages
+      _selectedLanguages.add(language);
+    });
+  }
+
+  void _removeSelectedLanguage(String language) {
+    setState(() {
+      // Remove the selected language from the list of selected languages
+      _selectedLanguages.remove(language);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +80,7 @@ class ViewProjectPage extends StatelessWidget {
                 ).createShader(bounds);
               },
               child: Text(
-                projectTitle,
+                widget.projectTitle,
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.white,
@@ -80,43 +109,42 @@ class ViewProjectPage extends StatelessWidget {
       body: Container(
         height: 400, // Set a fixed height for the container
         child: ListView.builder(
-          itemCount: languages.length,
+          itemCount: _selectedLanguages.length,
           itemBuilder: (context, index) {
-            print("Selected Language: $selectedLanguage");
-            print("language index: ${languages[index]}");
-            if (languages[index] == selectedLanguage) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ListTile(
-                  leading: SizedBox(
-                    width: 80,
-                    height: 48,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
-                      child: Image.network(
-                        languageImages[index],
-                        fit: BoxFit.cover,
-                      ),
+            final selectedLanguage = _selectedLanguages[index];
+            final languageIndex = languages.indexOf(selectedLanguage);
+            return Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ListTile(
+                leading: SizedBox(
+                  width: 80,
+                  height: 48,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: Image.network(
+                      languageImages[languageIndex],
+                      fit: BoxFit.cover,
                     ),
-                  ),
-                  title: Text(
-                    languages[index],
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(
-                      Icons.play_circle_fill_outlined,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    onPressed: () {
-                      // Handle play button pressed
-                    },
                   ),
                 ),
-              );
-            } else {
-              return Container(); // Return an empty container for non-selected languages
-            }
+                title: Text(
+                  selectedLanguage,
+                  style: TextStyle(color: Colors.white),
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    Icons.play_circle_fill_outlined,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  onPressed: () {
+                    // Handle play button pressed
+                  },
+                ),
+                onLongPress: () {
+                  _removeSelectedLanguage(selectedLanguage);
+                },
+              ),
+            );
           },
         ),
       ),
@@ -138,15 +166,41 @@ class ViewProjectPage extends StatelessWidget {
         ),
         child: FloatingActionButton.extended(
           onPressed: () {
-            // Handle add new translation button pressed
+            _showAddTranslationDialog();
           },
           icon: Icon(Icons.add),
           label: Text('Add New Translation'),
-          backgroundColor: Colors
-              .transparent, // Set the button's background color as transparent
+          backgroundColor: Colors.transparent,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  void _showAddTranslationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Select a New Language'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: languages.map((language) {
+                return ListTile(
+                  title: Text(language),
+                  onTap: () {
+                    _addSelectedLanguage(language);
+                    Navigator.pop(context);
+                  },
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

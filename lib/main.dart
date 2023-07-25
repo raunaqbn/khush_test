@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
         return MaterialApp(
           title: 'Translatify',
           theme: ThemeData(
-            primarySwatch: Colors.blueGrey,
+            primarySwatch: Colors.deepPurple,
           ),
           initialRoute: '/',
           routes: {

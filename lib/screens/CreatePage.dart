@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screens/ImageCardData.dart';
 import 'HomeView.dart';
 import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
@@ -14,11 +15,14 @@ final MethodChannel _channel = const MethodChannel('image_picker_channel');
 class CreatePage extends StatefulWidget {
   final List<ImageCardData> imageCards;
   final Function(ImageCardData) onAddImageCard;
+  final List<String>
+      selectedLanguages; // New property to hold selected languages
 
   const CreatePage({
     Key? key,
     required this.imageCards,
     required this.onAddImageCard,
+    required this.selectedLanguages, // Add the selectedLanguages parameter
   }) : super(key: key);
 
   @override
@@ -26,7 +30,15 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
+  List<String> selectedLanguages = [];
   final Image placeholderImage = Image.asset('assets/placeholder_image.jpg');
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize selectedLanguages with the initially selected language
+    selectedLanguages.add(widget.selectedLanguages[0]);
+  }
 
   Future selectFile() async {
     final result = await FilePicker.platform.pickFiles(allowMultiple: false);
@@ -288,12 +300,15 @@ class _CreatePageState extends State<CreatePage> {
                 child: ElevatedButton(
                   onPressed: () {
                     setState(() {
+                      selectedLanguages.add(_selectedLanguage);
                       // Create a new ImageCardData object with the provided information
                       final newImageCard = ImageCardData(
                         imageUrl:
                             'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhEsqFp9ZuQeiWzbc-Sb0qCQZ9ijs144xF2dJqmiBYzEdt0E0ty2mZ_MilBakb0pCtOnNZdJbIvxPyN3Mf5VlwZe5dIsjAVLNHEYswicEZqliJ2jbKU-k_fncGx_PDuYNas4JnECjxohJCrTPoeb6TtAiM_rxWhwSM9GbOSPVEMQAYySHhjg4aSg19Tw9GI/w396-h223/Translatify%20Project%20Card.png', // placeholder image URL
                         foregroundText: _projectName ?? '',
-                        subtext: _selectedLanguage,
+                        selectedLanguages: [
+                          _selectedLanguage,
+                        ],
                       );
 
                       // Call the onAddImageCard function to add the new image card

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:namer_app/screens/ImageCardData.dart';
 import 'HomeView.dart';
 import 'ProfilePage.dart';
 import 'CreatePage.dart';
@@ -16,25 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  List<ImageCardData> imageCards = [
-    ImageCardData(
-      imageUrl:
-          'https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/94b451100579611.5ff9a6374307b.jpg',
-      foregroundText: "Khush's Project",
-      subtext: 'Translation: Multiple Languages',
-    ),
-    ImageCardData(
-      imageUrl: 'https://i.ytimg.com/vi/3YNku5FKWjw/maxresdefault.jpg',
-      foregroundText: "Raunaq's Project",
-      subtext: 'Translation: English to Japanese',
-    ),
-    ImageCardData(
-      imageUrl:
-          'https://pbs.twimg.com/ext_tw_video_thumb/1613570354089181185/pu/img/fp5InRCF8E9qG7nh.jpg',
-      foregroundText: 'Project 3',
-      subtext: 'Translation: English to Russian',
-    ),
-  ];
+  List<ImageCardData> imageCards = [];
 
   @override
   void initState() {
@@ -160,11 +143,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildPage(BuildContext context, String selectedLanguage) {
+    List<String> selectedLanguages = [
+      selectedLanguage
+    ]; // Convert the String into a List with a single item
     Widget page;
     switch (_selectedIndex) {
       case 0:
         page = HomeView(
-          selectedLanguage: selectedLanguage,
+          selectedLanguages: selectedLanguages,
           imageCards: imageCards,
           onAddImageCard: _addImageCard,
           onDeleteImageCard: _deleteImageCard, // Pass the delete function here
@@ -172,7 +158,7 @@ class _HomePageState extends State<HomePage> {
         break;
       case 1:
         page = HomeView(
-          selectedLanguage: selectedLanguage,
+          selectedLanguages: selectedLanguages,
           imageCards: imageCards,
           onAddImageCard: _addImageCard,
           onDeleteImageCard: _deleteImageCard, // Pass the delete function here
@@ -183,7 +169,7 @@ class _HomePageState extends State<HomePage> {
         break;
       default:
         page = HomeView(
-          selectedLanguage: selectedLanguage,
+          selectedLanguages: selectedLanguages,
           imageCards: imageCards,
           onAddImageCard: _addImageCard,
           onDeleteImageCard: _deleteImageCard, // Pass the delete function here
