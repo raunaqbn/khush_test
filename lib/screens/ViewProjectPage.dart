@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:namer_app/screens/HomePage.dart';
+import 'package:namer_app/screens/ImageCardData.dart';
+import 'package:namer_app/screens/VideoPlayerPage.dart';
 
 class ViewProjectPage extends StatefulWidget {
   final String projectTitle;
-  final List<String> selectedLanguages;
+  final ImageCardData imageCardData;
 
   ViewProjectPage({
     required this.projectTitle,
-    required this.selectedLanguages,
+    required this.imageCardData,
   });
 
   @override
   State<ViewProjectPage> createState() => _ViewProjectPageState();
 }
 
-class _ViewProjectPageState extends State<ViewProjectPage>
-    with AutomaticKeepAliveClientMixin<ViewProjectPage> {
+class _ViewProjectPageState extends State<ViewProjectPage> {
   final List<String> languages = [
     'English',
     'Spanish',
@@ -36,21 +38,21 @@ class _ViewProjectPageState extends State<ViewProjectPage>
   @override
   void initState() {
     super.initState();
-    // Add the initially selected language to the list of selected languages
-    _selectedLanguages.add(widget.selectedLanguages[0]);
+    // Add the initially selected languages from the ImageCardData to the list of selected languages
+    _selectedLanguages.addAll(widget.imageCardData.selectedLanguages);
   }
 
   void _addSelectedLanguage(String language) {
     setState(() {
       // Add the selected language to the list of selected languages
-      _selectedLanguages.add(language);
+      widget.imageCardData.selectedLanguages.add(language);
     });
   }
 
   void _removeSelectedLanguage(String language) {
     setState(() {
       // Remove the selected language from the list of selected languages
-      _selectedLanguages.remove(language);
+      widget.imageCardData.selectedLanguages.remove(language);
     });
   }
 
@@ -138,6 +140,15 @@ class _ViewProjectPageState extends State<ViewProjectPage>
                   ),
                   onPressed: () {
                     // Handle play button pressed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VideoPlayerPage(
+                          videoUrl:
+                              'https://assets.mixkit.co/videos/preview/mixkit-young-man-missing-a-bowling-shot-49117-large.mp4',
+                        ),
+                      ),
+                    );
                   },
                 ),
                 onLongPress: () {
@@ -200,7 +211,4 @@ class _ViewProjectPageState extends State<ViewProjectPage>
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

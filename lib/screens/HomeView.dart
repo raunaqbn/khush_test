@@ -105,8 +105,7 @@ class HomeView extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => ViewProjectPage(
                             projectTitle: imageCards[index].foregroundText,
-                            selectedLanguages: imageCards[index]
-                                .selectedLanguages, // Pass selectedLanguages as a list
+                            imageCardData: imageCards[index],
                           ),
                         ),
                       );
@@ -124,7 +123,6 @@ class HomeView extends StatelessWidget {
     );
   }
 
-// Define buildImageCard function outside the HomeView class
   Widget buildImageCard({
     required String imageUrl,
     required String foregroundText,
